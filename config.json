@@ -1,0 +1,14 @@
+{
+    "params":
+    {
+        "local_server":"True",
+        "local_uri":"mysql://root:@localhost/flasksite",
+        "prod_uri":"mysql://root:@localhost/flasksite",
+        "gmail-user":"omamazainab00@gmail.com",
+        "gmail-password":"QAZplm1@!",
+        "blog_name": "My Flsk Site",
+        "no_of_posts": 5,
+        "admin_name": "omama",
+        "admin_password": "omama123"
+    }
+}
