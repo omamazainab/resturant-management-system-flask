@@ -1,0 +1,15 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block body %}
+
+{% if current_user.is_authenticated %}
+    {{ current_user.username }}
+    
+
+    <ol>
+        <li><a href="/admin/products">Products</a></li>
+    </ol>
+
+
+{% endif %}!
+    {% endblock %}
