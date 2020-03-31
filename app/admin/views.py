@@ -67,17 +67,16 @@ def products():
 @login_required
 def addProducts():
     form = ProductForm()
-    # if form.validate_on_submit():
-    #     # Create a directory in a known location to save files to.
-    #     uploads_dir = os.path.join(app.instance_path, 'uploads')
-    #     # os.makedirs(uploads_dir, exists_ok=True)
-    #     # uploads_dir = '../static/uploads'
-    #     # form.image.data.save(secure_filename(form.image.data.filename))
-    #     # filename = secure_filename(form.image.data.filename)
-    #     # form.image.data.save(url_for()
-    #     if current_user.is_authenticated:
-    #         product=Product(product_name=form.product_name.data, category=form.category.data,
-    #                           description=form.description.data, price=form.price.data, image=filename)
-    #         db.session.add(product)
-    #         db.session.commit()
+    if form.validate_on_submit():
+        # Create a directory in a known location to save files to.
+        uploads_dir = os.path.join(app.instance_path, 'uploads')
+        os.makedirs(uploads_dir, exists_ok=True)
+    
+        form.image.data.save(os.path.join(uploads_dir, secure_filename(form.image.data.filename)))
+   
+        if current_user.is_authenticated:
+            product=Product(product_name=form.product_name.data, category=form.category.data,
+                              description=form.description.data, price=form.price.data, image=filename)
+            db.session.add(product)
+            db.session.commit()
     return render_template('admin/add-product.html', form=form)
