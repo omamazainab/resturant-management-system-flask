@@ -1,0 +1,9 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block body %}
+
+{% for product in products %}
+<p>{{product.product_name}}</p>
+{% endfor %}
+
+{% endblock %}

@@ -60,7 +60,8 @@ def register():
 
 @admin.route('/products', methods=['GET', 'POST'])
 def products():
-    return 'you are not supposed to touch the itchy pimple'
+    products = Product.query.filter_by().all()
+    return render_template("admin/products.html", products=products)
 
 
 @admin.route('/add-product', methods=['GET', 'POST'])
