@@ -6,8 +6,8 @@ from flask_login import login_user, logout_user, login_required, \
     current_user
 from flask_login import logout_user, login_required
 from werkzeug.utils import secure_filename
-from .. import db, UPLOAD_FOLDER
-# from .. import APP_ROOT
+from .. import db,UPLOAD_FOLDER
+# from flask import current_app as app
 import os
 
 # @admin.route('/', methods=['GET', 'POST'])
@@ -30,7 +30,7 @@ def login():
     return render_template('admin/login.html', form=form)
 
 
-@admin.route('/dashboard', methods=['GET', 'POST'])
+@admin.route('/', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     return render_template('admin/admin_dashboard.html')
@@ -59,6 +59,7 @@ def register():
 
 
 @admin.route('/products', methods=['GET', 'POST'])
+@login_required
 def products():
     products = Product.query.filter_by().all()
     return render_template("admin/products.html", products=products)
@@ -71,11 +72,17 @@ def addProducts():
     if form.validate_on_submit():
         
         form.image.data.save(os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename)))
-   
+        image_path = os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename))
         if current_user.is_authenticated:
             product = Product(product_name=form.product_name.data, category=form.category.data,
-                              description=form.description.data, price = form.price.data ,image=form.image.data.filename)
+                              description=form.description.data, price = form.price.data ,image=str(image_path))
             db.session.add(product)
             db.session.commit()
     return render_template('admin/add-product.html', form=form)
     # return os.path.dirname(os.path.abspath(__file__))
+
+
+@admin.route('/edit-product/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editProduct():
+    return render_template()

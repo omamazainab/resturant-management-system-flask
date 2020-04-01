@@ -41,7 +41,7 @@ class ProductForm(FlaskForm):
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                'Usernames must have only letters, numbers, dots or '
                'underscores')])
-    category = SelectField(u'Category', choices=[('breakfast','Breakfast'),('lunch','Lunch'),(3,'Dinner'),(4,'Drinks'),(5,'Desserts')])
+    category = SelectField(u'Category', choices=[('breakfast','Breakfast'),('lunch','Lunch'),('dinner','Dinner'),('drinks','Drinks'),('desserts','Desserts')])
     description = TextAreaField('product description',validators=[DataRequired()])
     price = StringField('Product Price',validators=[DataRequired()])
     image = FileField(u'Product Image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])

@@ -1,5 +1,6 @@
 from flask import render_template, session, redirect, url_for, current_app
 from . import main
+from ..models import Product
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -12,4 +13,6 @@ def about():
 
 @main.route('/menu', methods=['GET', 'POST'])
 def menu():
-    return render_template('menu.html')
+    categories = ['breakfast','lunch','dinner','drinks','desserts']
+    products = Product.query.filter_by().all()
+    return render_template('menu.html', categories = categories, products = products )
