@@ -6,8 +6,8 @@ from flask_login import login_user, logout_user, login_required, \
     current_user
 from flask_login import logout_user, login_required
 from werkzeug.utils import secure_filename
-from .. import db
-# from .. import app
+from .. import db, UPLOAD_FOLDER
+# from .. import APP_ROOT
 import os
 
 # @admin.route('/', methods=['GET', 'POST'])
@@ -68,15 +68,13 @@ def products():
 def addProducts():
     form = ProductForm()
     if form.validate_on_submit():
-        # Create a directory in a known location to save files to.
-        uploads_dir = os.path.join(app.instance_path, 'uploads')
-        os.makedirs(uploads_dir, exists_ok=True)
-    
-        form.image.data.save(os.path.join(uploads_dir, secure_filename(form.image.data.filename)))
+        
+        form.image.data.save(os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename)))
    
         if current_user.is_authenticated:
-            product=Product(product_name=form.product_name.data, category=form.category.data,
-                              description=form.description.data, price=form.price.data, image=filename)
+            product = Product(product_name=form.product_name.data, category=form.category.data,
+                              description=form.description.data, price = form.price.data ,image=form.image.data.filename)
             db.session.add(product)
             db.session.commit()
     return render_template('admin/add-product.html', form=form)
+    # return os.path.dirname(os.path.abspath(__file__))

@@ -43,6 +43,6 @@ class ProductForm(FlaskForm):
                'underscores')])
     category = SelectField(u'Category', choices=[('breakfast','Breakfast'),('lunch','Lunch'),(3,'Dinner'),(4,'Drinks'),(5,'Desserts')])
     description = TextAreaField('product description',validators=[DataRequired()])
-    price = DecimalField('Product Price',validators=[DataRequired()])
+    price = StringField('Product Price',validators=[DataRequired()])
     image = FileField(u'Product Image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
     submit = SubmitField('Add Product')
