@@ -100,7 +100,7 @@ def editProduct(id):
     return render_template('admin/edit-product.html',form=form, product=product)
 
 
-@admin.route('/delete-image/<id>', methods=['GET','POST'])
+@admin.route('/delete-image/<id>')
 @login_required
 def deleteImage(id):
     product = Product.query.get_or_404(id)
@@ -109,3 +109,14 @@ def deleteImage(id):
     product.product_image = None
     db.session.commit()
     return redirect('edit-product/' + str(product.id))
+
+@admin.route('/delete-product/<id>')
+@login_required
+def deleteProduct(id):
+    product = Product.query.get_or_404(id)
+    if os.path.exists(product.image) and product.image != None:
+        os.remove(product.image)
+    db.session.delete(product)
+    db.session.commit()
+    return redirect(url_for("admin.products"))
+
