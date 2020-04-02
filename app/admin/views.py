@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for, current_app, request, flash
 from . import admin
-from .forms import LoginForm, RegistrationForm, ProductForm
+from .forms import LoginForm, RegistrationForm, ProductForm, ProductEditForm
 from ..models import Admin, Product
 from flask_login import login_user, logout_user, login_required, \
     current_user
@@ -82,7 +82,30 @@ def addProducts():
     # return os.path.dirname(os.path.abspath(__file__))
 
 
-@admin.route('/edit-product/<int:id>', methods=['GET', 'POST'])
+@admin.route('/edit-product/<id>', methods=['GET', 'POST'])
 @login_required
-def editProduct():
-    return render_template()
+def editProduct(id):
+    product = Product.query.get_or_404(id)
+    form = ProductEditForm()
+    if form.validate_on_submit():
+        product.product_name = form.product_name.data
+        product.category = form.category.data
+        product.description = form.description.data
+        product.price = form.price.data
+    form.product_name.data = product.product_name
+    form.category.data = product.category
+    form.description.data = product.description
+    form.price.data = product.price
+    
+    return render_template('admin/edit-product.html',form=form, product=product)
+
+
+@admin.route('/delete-image/<id>', methods=['GET','POST'])
+@login_required
+def deleteImage(id):
+    product = Product.query.get_or_404(id)
+    if os.path.exists(product.image):
+        os.remove(product.image)
+    product.product_image = None
+    db.session.commit()
+    return redirect('edit-product/' + str(product.id))

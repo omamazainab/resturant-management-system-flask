@@ -4,7 +4,7 @@
 
 {% for product in products %}
 <p>{{product.product_name}} {{product.category}} {{product.price}} {{product.descrition}}</p>
-<button><a href="">Edit</a></button> <button><a href="">Delete</a></button>
+<button><a href="edit-product/{{product.id}}">Edit</a></button> <button><a href="">Delete</a></button>
 {% endfor %}
 
 {% endblock %}
