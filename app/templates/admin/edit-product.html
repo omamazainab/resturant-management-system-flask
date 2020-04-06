@@ -9,24 +9,30 @@
             <div class=" pt-5 px-2 pb-2 p-md-5 order-md-last" style="margin: 0 auto;">
                 <h2 class="h4 mb-2 mb-md-5 font-weight-bold">Edit product</h2>
 
-                {{ form.product_name.label }} {{ form.product_name() }}
-                {{ form.category.label }} {{ form.category }}
-                {{ form.description.label }} {{ form.description }}
-                {{ form.price.label }} {{ form.price }}
+                    <form method="POST">
+                        {{ form.csrf_token }} 
+                            {{ form.product_name.label }} {{ form.product_name() }}
+                            {{ form.category.label }} {{ form.category() }}
+                            {{ form.description.label }} {{ form.description() }}
+                            {{ form.price.label }} {{ form.price() }}
 
-                {% if product.image is not none %}
-                {% set product_image = product.image %}
-                
-                <a href="delete-image/{{product.id}}">X</a>
+                            
+                            {% set product_image = product.image %}
+                            
+                            
+                            
+                            {% if product.image != "" %}
+                            <a href="/admin/delete-image/{{product.id}}">delete</a>
+                            <div class="menu-img img"
+                                style="width: 200px; height: 200px; background-image: url({{url_for('static',filename='uploads/' + product_image)}});">
+                            </div>
+                            {% else %}
+                            {{ form.image.label }} {{ form.image}}
+                            {% endif %}
+                             
 
-                <div class="menu-img img"
-                    style="width: 200px; height: 200px; background-image: url({{url_for('static',filename='uploads/' + product_image)}});">
-                </div>
-                {% else %}
-
-                {{ form.image.label }} {{ form.image}}
-
-                {% endif %}
+                            {{ form.submit() }}
+                    </form>
 
             </div>
 

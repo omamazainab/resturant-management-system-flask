@@ -13,7 +13,6 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
-
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
@@ -56,7 +55,7 @@ class ProductEditForm(FlaskForm):
     category = SelectField(u'Category', choices=[('breakfast','Breakfast'),('lunch','Lunch'),('dinner','Dinner'),('drinks','Drinks'),('desserts','Desserts')])
     description = TextAreaField('product description',validators=[DataRequired()])
     price = StringField('Product Price',validators=[DataRequired()])
-    image = FileField(u'Product Image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    image = FileField(u'Product Image', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
     submit = SubmitField('Edit Product')
 
     

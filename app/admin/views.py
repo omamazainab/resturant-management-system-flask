@@ -72,10 +72,10 @@ def addProducts():
     if form.validate_on_submit():
         
         form.image.data.save(os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename)))
-        image_path = os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename))
+        # image_path = os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename))
         if current_user.is_authenticated:
             product = Product(product_name=form.product_name.data, category=form.category.data,
-                              description=form.description.data, price = form.price.data ,image=str(image_path))
+                              description=form.description.data, price = form.price.data ,image=secure_filename(form.image.data.filename))
             db.session.add(product)
             db.session.commit()
     return render_template('admin/add-product.html', form=form)
@@ -92,30 +92,43 @@ def editProduct(id):
         product.category = form.category.data
         product.description = form.description.data
         product.price = form.price.data
+
+        
+        form.image.data.save(os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename)))
+        product.image = secure_filename(form.image.data.filename)
+           
+        
+       
+        db.session.add(product)
+        db.session.commit()
     form.product_name.data = product.product_name
     form.category.data = product.category
     form.description.data = product.description
     form.price.data = product.price
     
+    
     return render_template('admin/edit-product.html',form=form, product=product)
 
 
-@admin.route('/delete-image/<id>')
+@admin.route('/delete-image/<id>',methods=['GET'])
 @login_required
 def deleteImage(id):
     product = Product.query.get_or_404(id)
-    if os.path.exists(product.image):
-        os.remove(product.image)
-    product.product_image = None
+    if os.path.exists(os.path.join(UPLOAD_FOLDER, product.image)):
+        os.remove(os.path.join(UPLOAD_FOLDER, product.image))
+    product.image = ""
     db.session.commit()
-    return redirect('edit-product/' + str(product.id))
+
+    return redirect('/edit-product/'+product.id)
 
 @admin.route('/delete-product/<id>')
 @login_required
 def deleteProduct(id):
     product = Product.query.get_or_404(id)
-    if os.path.exists(product.image) and product.image != None:
-        os.remove(product.image)
+    if product.image != "":
+        image_path = os.path.join(UPLOAD_FOLDER, product.image)
+        if os.path.exists(image_path) and product.image != None:
+            os.remove(image_path)
     db.session.delete(product)
     db.session.commit()
     return redirect(url_for("admin.products"))

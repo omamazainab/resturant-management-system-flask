@@ -3,7 +3,7 @@
 {% block body %}
 
 {% for product in products %}
-<p>{{product.product_name}} {{product.category}} {{product.price}} {{product.descrition}}</p>
+<p>{{product.product_name}} {{product.category}} {{product.price}} {{product.descrition}} {{product.image}}</p>
 <button><a href="edit-product/{{product.id}}">Edit</a></button> <button><a href="delete-product/{{product.id}}">Delete</a></button>
 {% endfor %}
 
