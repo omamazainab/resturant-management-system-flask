@@ -119,7 +119,7 @@ def deleteImage(id):
     product.image = ""
     db.session.commit()
 
-    return redirect('/edit-product/'+str(product.id))
+    return redirect('/admin/edit-product/'+str(product.id))
 
 @admin.route('/delete-product/<id>')
 @login_required
