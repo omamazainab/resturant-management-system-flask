@@ -93,9 +93,9 @@ def editProduct(id):
         product.description = form.description.data
         product.price = form.price.data
 
-        
-        form.image.data.save(os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename)))
-        product.image = secure_filename(form.image.data.filename)
+        if product.image == "" :
+            form.image.data.save(os.path.join(UPLOAD_FOLDER, secure_filename(form.image.data.filename)))
+            product.image = secure_filename(form.image.data.filename)
            
         
        
@@ -119,7 +119,7 @@ def deleteImage(id):
     product.image = ""
     db.session.commit()
 
-    return redirect('/edit-product/'+product.id)
+    return redirect('/edit-product/'+str(product.id))
 
 @admin.route('/delete-product/<id>')
 @login_required
