@@ -31,13 +31,41 @@
 
 <body>
 
-  <ul class="nav navbar-nav navbar-right">
+  <!-- <ul class="nav navbar-nav navbar-right">
     {% if current_user.is_authenticated %}
     <li><a href="{{ url_for('admin.logout') }}">Log Out</a></li>
     {% else %}
     <li><a href="{{ url_for('admin.login') }}">Log In</a></li>
     {% endif %}
-  </ul>
+  </ul> -->
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">FELICIANO</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav" style="margin: 0 0 0 auto;">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="" style="text-transform: capitalize;">{{ current_user.username }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('admin.logout') }}">LOG OUT</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('admin.register') }}">SIGN IN</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('admin.login') }}">LOG IN</a>
+        </li>
+        {% endif %}
+        
+        
+      </ul>
+    </div>
+  </nav>
 
   {% block body %}
 
