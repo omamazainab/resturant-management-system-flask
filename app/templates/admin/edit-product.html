@@ -11,18 +11,31 @@
 
                     <form method="POST" enctype="multipart/form-data">
                         {{ form.csrf_token }} 
-                            {{ form.product_name.label }} {{ form.product_name() }}
-                            {{ form.category.label }} {{ form.category() }}
+
+                        <div class="row">
+                            {{ form.product_name.label }} {{ form.product_name(class="form-control") }}
+                        </div>
+                        <div class="row">
+                            {{ form.category.label }} {{ form.category(class="form-control") }}
+                        </div>   
+                        <div class="row">
                             {{ form.description.label }} {{ form.description() }}
+                        </div>    
+                        <div class="row">
                             {{ form.price.label }} {{ form.price() }}
+                        </div>
+                            
 
                             
-                            {% set product_image = product.image %}
+                            
                             
                             
                             
                             {% if product.image != "" %}
-                            <a href="/admin/delete-image/{{product.id}}">delete</a>
+                            {% set product_image = product.image %}
+                            <a href="/admin/delete-image/{{product.id}}"><button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button></a>
                             <div class="menu-img img"
                                 style="width: 200px; height: 200px; background-image: url({{url_for('static',filename='uploads/' + product_image)}});">
                             </div>
